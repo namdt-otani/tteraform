@@ -5,28 +5,28 @@ import type { CLIArgs } from "../../utils/parse-args.js";
 import {AWS_KEYS, AZURE_KEYS, configDir, configPath, defaultRegion, PROVIDERS} from "../../constant/index.js";
 
 // ---------- TYPES ----------
-type Provider = (typeof PROVIDERS)[number];
-type AwsFlagKey = (typeof AWS_KEYS)[number];
-type AzureFlagKey = (typeof AZURE_KEYS)[number];
+export type Provider = (typeof PROVIDERS)[number];
+export type AwsFlagKey = (typeof AWS_KEYS)[number];
+export type AzureFlagKey = (typeof AZURE_KEYS)[number];
 
-type AwsProviderConf = {
+export type AwsProviderConf = {
   accessKeyId: string;
   secretAccessKey: string;
   region: string;
 };
 
-type AzureProviderConf = {
+export type AzureProviderConf = {
   tenantId: string;
   clientId: string;
   clientSecret: string;
 };
 
-interface MetaProviders {
+export interface MetaProviders {
   aws?: AwsProviderConf;
   azure?: AzureProviderConf;
 }
 
-interface Config {
+export interface Config {
   provider?: Provider;
   metaProvider?: MetaProviders;
 }
