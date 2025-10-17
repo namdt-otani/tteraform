@@ -1,0 +1,20 @@
+{
+  "name": "tteraform",
+  "version": "1.0.0",
+  "description": "A helper for adding env key to param store",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "tteraform": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "author": "dinhthanhnam",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.8.1",
+    "typescript": "^5.9.3"
+  }
+}
