@@ -1,5 +1,6 @@
 export interface CLIArgs {
   command?: string;
+  subcommand?: string;
   flags: Record<string, boolean | string>;
   interactive: boolean;
 }
@@ -28,6 +29,7 @@ export function parseArgs(argv: string[]): CLIArgs {
 
   return {
     command: positional[0],
+    subcommand: positional[1],
     flags,
     interactive,
   };
