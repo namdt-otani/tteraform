@@ -8,8 +8,6 @@ import {runAdd} from "./commands/add/index.js";
 const cli = parseArgs(process.argv);
 
 async function main() {
-  console.log(process.argv)
-  console.log(cli)
   switch (cli.command) {
     case "config":
       await runConfig(cli);
@@ -28,12 +26,12 @@ async function main() {
       console.log("  scan       Scan for any missing keys");
       console.log("  add        Add parameter using interactive mode or non interactive mode");
       console.log("");
-      console.log("  * Commands without [--flag] will start in interactive mode.");
+      console.log("  * Commands without [--flag] will start interactive mode.");
       console.log("  * Commands with [--flag] will run in non-interactive mode.");
 
       console.log("Supported flags:");
       console.log("  - config:    --provider  |  --access-key  |  --secret");
-      console.log("  - add:       --key       |  --value");
+      console.log("  - add:       --key       |  --value       |  --overwrite");
       destroy()
       break;
   }

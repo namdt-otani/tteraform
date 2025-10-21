@@ -163,8 +163,7 @@ async function runConfigNoInteractive(cli: CLIArgs) {
 // ---------- ENTRY POINT ----------
 
 export async function runConfig(cli: CLIArgs) {
-  const hasFlags = Object.keys(cli.flags).length > 0;
-  if (hasFlags) {
+  if (!cli.interactive) {
     await runConfigNoInteractive(cli);
     return;
   }

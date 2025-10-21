@@ -59,6 +59,8 @@ async function runAddNoInteractive(cli: CLIArgs) {
     } else {
       console.error("Failed to add parameter:", err.message);
     }
+  } finally {
+    destroy();
   }
 }
 
@@ -68,8 +70,7 @@ async function runAddInteractive() {
 }
 
 export async function runAdd(cli: CLIArgs) {
-  const hasFlags = Object.keys(cli.flags).length > 0;
-  if (hasFlags) {
+  if (!cli.interactive) {
     await runAddNoInteractive(cli);
     return;
   }
