@@ -3,11 +3,10 @@ import readline from "readline/promises";
 import { stdin as input, stdout as output } from "process";
 import type { CLIArgs } from "../../utils/parse-args.js";
 import {AWS_KEYS, AZURE_KEYS, configDir, configPath, defaultRegion, PROVIDERS} from "../../constant/index.js";
+import {destroy} from "../../utils/destroy.js";
 
 // ---------- TYPES ----------
 export type Provider = (typeof PROVIDERS)[number];
-export type AwsFlagKey = (typeof AWS_KEYS)[number];
-export type AzureFlagKey = (typeof AZURE_KEYS)[number];
 
 export type AwsProviderConf = {
   accessKeyId: string;
@@ -35,14 +34,15 @@ export interface Config {
 const rl = readline.createInterface({ input, output });
 
 // ---------- HELPERS ----------
-const FlagsMap: Record<string, string> = {
+const ConfigFlagsMap: Record<string, string> = {
   "access-key": "accessKeyId",
-  "serect": "secretAccessKey",
+  "secret": "secretAccessKey",
   "region": "region",
   "tenant-id": "tenantId",
   "client-id": "clientId",
   "client-secret": "clientSecret"
 }
+
 // Load existing config file if available
 export function loadConfig(): Config {
   try {
@@ -51,6 +51,7 @@ export function loadConfig(): Config {
     }
   } catch (e) {
     console.warn("⚠️ Failed to parse existing config file:", e);
+    destroy()
   }
   return {}; // default empty config
 }
@@ -60,8 +61,7 @@ function saveConfig(conf: Config) {
   fs.mkdirSync(configDir, { recursive: true });
   fs.writeFileSync(configPath, JSON.stringify(conf, null, 2));
   console.log(`Config saved at: ${configPath}`);
-  process.stdin.destroy();
-  process.exit(0);
+  destroy()
 }
 
 // Prompt with default value support
@@ -102,7 +102,7 @@ async function runConfigInteractive() {
   else if (provider === "azure") {
     const tenantId = await ask("Azure Tenant ID", metaProvider?.azure?.tenantId);
     const clientSecret = await ask("Azure Client Secret Key",  metaProvider?.azure?.clientSecret);
-    const clientId = await ask("AWS Client Id", metaProvider?.azure?.clientId);
+    const clientId = await ask("Azure Client Id", metaProvider?.azure?.clientId);
     metaProvider.azure = { tenantId, clientSecret, clientId };
   }
 
@@ -133,7 +133,7 @@ async function runConfigNoInteractive(cli: CLIArgs) {
       throw new Error(`Invalid flag for provider '${provider}': --${flag}`);
     }
 
-    const mappedKey = FlagsMap[flag];
+    const mappedKey = ConfigFlagsMap[flag];
     if (!mappedKey) {
       throw new Error(`Unknown mapping for flag: --${flag}`);
     }
