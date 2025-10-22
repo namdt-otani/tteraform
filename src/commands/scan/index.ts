@@ -6,7 +6,7 @@ import { destroy } from "../../utils/destroy.js";
  */
 export async function runScan() {
   try {
-    console.log("🧠 Running terraform plan -json ...");
+    console.log("Running terraform plan -json ...");
     const output = execSync("terraform plan -no-color -input=false -json", {
       encoding: "utf-8",
     });
